@@ -52,19 +52,25 @@ var IndexController = /** @class */ (function () {
     };
     IndexController.prototype.getData = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var getUser, templateTable, html, error_1;
+            var getUsers, templateTable, html, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        getUser = index_helper_1.indexHelper.getPersonas();
-                        templateTable = index_helper_1.indexHelper.structureHTML(getUser);
+                        getUsers = index_helper_1.indexHelper.getPersonas();
+                        templateTable = index_helper_1.indexHelper.structureHTML(getUsers);
                         html = getTemplateHTML.replace('{{date}}', new Date().toUTCString());
                         return [4 /*yield*/, html_pdf_1.default.create(html.replace('<nodejs></nodejs>', templateTable), { format: 'Letter', header: { height: "150px" } }).toStream(function (err, stream) {
-                                if (err)
-                                    return res.send(err.stack);
-                                res.setHeader('Content-type', 'application/pdf');
-                                return stream.pipe(res);
+                                if (err) {
+                                    return res.status(500).json({
+                                        status: false,
+                                        message: err.stack
+                                    });
+                                }
+                                else {
+                                    res.setHeader('Content-type', 'application/pdf');
+                                    return stream.pipe(res);
+                                }
                             })];
                     case 1:
                         _a.sent();
