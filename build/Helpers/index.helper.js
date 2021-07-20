@@ -7,7 +7,7 @@ var IndexHelper = /** @class */ (function () {
     IndexHelper.getInstance = function () {
         return !IndexHelper.instance ? new IndexHelper : IndexHelper.instance;
     };
-    IndexHelper.prototype.getPerson = function () {
+    IndexHelper.prototype.getPersonas = function () {
         var personas = [
             { id: 0, nombre: 'Isaac', app: 'Corona Jimenez', cargo: 'Coordinador TI', sueldo: 4500 },
             { id: 1, nombre: 'Ana', app: 'Olguin Olvera', cargo: 'Coordinador Contabilidad', sueldo: 8500 },
@@ -18,6 +18,13 @@ var IndexHelper = /** @class */ (function () {
             { id: 6, nombre: 'Astrid', app: 'Avila', cargo: 'Coordinador Atn Clientes', sueldo: 3500 }
         ];
         return personas;
+    };
+    IndexHelper.prototype.structureHTML = function (personas) {
+        var template = '';
+        personas.forEach(function (persona) {
+            template += "\n                <tr>\n                    <td>" + persona.id + "</td>\n                    <td>" + persona.nombre + "</td>\n                    <td>" + persona.app + "</td>\n                    <td>" + persona.cargo + "</td>\n                    <td>" + persona.sueldo + "</td>\n                </tr>";
+        });
+        return template;
     };
     return IndexHelper;
 }());

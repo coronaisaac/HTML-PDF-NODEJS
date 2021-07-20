@@ -8,6 +8,7 @@ var morgan_1 = __importDefault(require("morgan"));
 var index_router_1 = require("./Routers/index.router");
 var Server = /** @class */ (function () {
     function Server() {
+        this.PORT = 3200;
         this.app = express_1.default();
         this.config();
     }
@@ -24,8 +25,9 @@ var Server = /** @class */ (function () {
         this.app.use('/', index_router_1.indexRouter);
     };
     Server.prototype.start = function () {
-        this.app.listen(3200, function () {
-            console.log('server run on port 3200');
+        var _this = this;
+        this.app.listen(this.PORT, function () {
+            console.log("SERVER RUN ON PORT " + _this.PORT);
         });
     };
     return Server;

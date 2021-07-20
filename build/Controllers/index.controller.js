@@ -43,7 +43,7 @@ exports.indexController = void 0;
 var index_helper_1 = require("../Helpers/index.helper");
 var fs_1 = __importDefault(require("fs"));
 var html_pdf_1 = __importDefault(require("html-pdf"));
-var tmpl = fs_1.default.readFileSync(require.resolve('../../Template/template.html'), 'utf-8');
+var getTemplateHTML = fs_1.default.readFileSync(require.resolve('../../Template/template.html'), 'utf-8');
 var IndexController = /** @class */ (function () {
     function IndexController() {
     }
@@ -52,33 +52,30 @@ var IndexController = /** @class */ (function () {
     };
     IndexController.prototype.getData = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var getUser, html, templateTable, error_1;
+            var getUser, templateTable, html, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        getUser = index_helper_1.indexHelper.getPerson();
-                        html = tmpl.replace('{{date}}', new Date().toUTCString());
-                        templateTable = '';
-                        getUser.forEach(function (persona) {
-                            templateTable += "<tr><td>" + persona.id + "</td><td>" + persona.nombre + "</td><td>" + persona.app + "</td><td>" + persona.cargo + "</td><td>" + persona.sueldo + "</td></tr>";
-                        });
-                        _a.label = 1;
-                    case 1:
-                        _a.trys.push([1, 3, , 4]);
+                        _a.trys.push([0, 2, , 3]);
+                        getUser = index_helper_1.indexHelper.getPersonas();
+                        templateTable = index_helper_1.indexHelper.structureHTML(getUser);
+                        html = getTemplateHTML.replace('{{date}}', new Date().toUTCString());
                         return [4 /*yield*/, html_pdf_1.default.create(html.replace('<nodejs></nodejs>', templateTable), { format: 'Letter', header: { height: "150px" } }).toStream(function (err, stream) {
                                 if (err)
                                     return res.send(err.stack);
                                 res.setHeader('Content-type', 'application/pdf');
-                                stream.pipe(res);
+                                return stream.pipe(res);
                             })];
-                    case 2:
+                    case 1:
                         _a.sent();
-                        return [3 /*break*/, 4];
-                    case 3:
+                        return [3 /*break*/, 3];
+                    case 2:
                         error_1 = _a.sent();
-                        res.send(error_1);
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
+                        return [2 /*return*/, res.status(500).json({
+                                status: false,
+                                message: error_1
+                            })];
+                    case 3: return [2 /*return*/];
                 }
             });
         });

@@ -5,7 +5,7 @@ class IndexHelper{
     public static getInstance():IndexHelper{
         return !IndexHelper.instance ? new IndexHelper : IndexHelper.instance;
     }
-    public getPerson(){
+    public getPersonas(){
         const personas:Persona[]=
         [
             {id:0,nombre:'Isaac',app:'Corona Jimenez',cargo:'Coordinador TI',sueldo:4500},
@@ -17,6 +17,20 @@ class IndexHelper{
             {id:6,nombre:'Astrid',app:'Avila',cargo:'Coordinador Atn Clientes',sueldo:3500}
         ];
         return personas;
+    }
+    public structureHTML(personas:Persona[]){
+        var template='';
+        personas.forEach(persona => {
+            template+=`
+                <tr>
+                    <td>${persona.id}</td>
+                    <td>${persona.nombre}</td>
+                    <td>${persona.app}</td>
+                    <td>${persona.cargo}</td>
+                    <td>${persona.sueldo}</td>
+                </tr>`
+       });
+       return template;
     }
    
 }

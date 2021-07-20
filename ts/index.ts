@@ -1,10 +1,11 @@
-import express, { Application,Request,Response } from 'express';
+import express, { Application} from 'express';
 import morgan from 'morgan';
 import { indexRouter } from './Routers/index.router';
 
 class Server{
     private static instance:Server;
     public app:Application;
+    private PORT:number =3200;
     public static getInstance():Server{
         return !Server.instance ? new Server() : Server.instance;
     }
@@ -22,9 +23,9 @@ class Server{
         this.app.use('/',indexRouter);
     }
     start():void{
-        this.app.listen(3200,()=>{
-            console.log('server run on port 3200');
-        })
+        this.app.listen(this.PORT,()=>{
+            console.log(`SERVER RUN ON PORT ${this.PORT}`);
+        });
     }
 }
 Server.getInstance().start();
